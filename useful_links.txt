@@ -1,0 +1,14 @@
+OAuth:
+https://auth0.com/intro-to-iam/what-is-oauth-2/
+https://www.toptal.com/django/integrate-oauth-2-into-django-drf-back-end
+
+Intersting Pytest Stuff:
+https://github.com/coriolinus/oauth2-article/blob/master/test_social.py
+
+DRF and OAuth and Github Login:
+https://python-social-auth.readthedocs.io/en/latest/configuration/django.html
+https://github.com/python-social-auth/social-examples
+https://github.com/wagnerdelima/drf-social-oauth2
+
+Creating a Github App
+https://medium.com/@gilharomri/github-app-bot-with-python-ea38811d7b14
