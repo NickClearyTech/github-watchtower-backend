@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "oauth2_provider",
     "social_django",
     "drf_social_oauth2",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,12 @@ REST_FRAMEWORK = {
         "drf_social_oauth2.authentication.SocialAuthentication",
     ),
 }
+
+# Initial User
+INITIAL_USER_USERNAME = os.environ.get("INITIAL_USER_USERNAME", "system")
+INITIAL_USER_FIRSTNAME = os.environ.get("INITIAL_USER_FIRSTNAME", "System")
+INITIAL_USER_LASTNAME = os.environ.get("INITIAL_USER_LASTNAME", "User")
+INITIAL_USER_EMAIL = os.environ.get("INITIAL_USER_EMAIL", "admin@watchtower.com")
+
+# Initial OAuth App
+INITIAL_OAUTH_CLIENT_ID = os.environ.get("INITIAL_OAUTH_CLIENT_ID", "default")

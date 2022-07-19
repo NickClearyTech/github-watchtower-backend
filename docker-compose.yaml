@@ -24,7 +24,7 @@ services:
       - .env
     volumes:
       - ./app/watchtower:/watchtower/app/watchtower
-    command: ['bash', '-c', 'python3 manage.py migrate']
+    command: ['bash', '-c', 'python3 manage.py migrate && python3 manage.py runscript initializer']
     depends_on:
       - database
     networks:
