@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "watchtower_service",
     "oauth2_provider",
     "social_django",
     "drf_social_oauth2",
@@ -55,7 +54,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "watchtower.urls"
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
@@ -75,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "watchtower.wsgi.application"
+WSGI_APPLICATION = "wsgi.application"
 
 
 # Database
@@ -84,7 +83,7 @@ WSGI_APPLICATION = "watchtower.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", "watchtower"),
+        "NAME": os.environ.get("POSTGRES_DB", ""),
         "USER": os.environ.get("POSTGRES_PASSWORD", "postgres"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.environ.get("POSTGRES_SERVER", "localhost"),
@@ -158,3 +157,8 @@ INITIAL_USER_EMAIL = os.environ.get("INITIAL_USER_EMAIL", "admin@watchtower.com"
 
 # Initial OAuth App
 INITIAL_OAUTH_CLIENT_ID = os.environ.get("INITIAL_OAUTH_CLIENT_ID", "default")
+
+# Github App Creds
+GITHUB_APP_ID = os.environ.get("GITHUB_APP_ID", None)
+GITHUB_OAUTH_CLIENT_ID = os.environ.get("GITHUB_CLIENT_ID", None)
+GITHUB_OAUTH_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET", None)

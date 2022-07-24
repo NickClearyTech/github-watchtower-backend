@@ -10,7 +10,7 @@ services:
       - ./app/watchtower:/watchtower/app/watchtower
     ports:
       - 8000:8000
-    command: ['bash', '-c', 'gunicorn --bind :8000 --workers 4 --reload watchtower.wsgi:application']
+    command: ['bash', '-c', 'gunicorn --bind :8000 --workers 4 --reload wsgi:application']
     depends_on:
       - database
     networks:

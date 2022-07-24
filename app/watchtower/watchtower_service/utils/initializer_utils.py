@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from oauth2_provider.models import Application
-from watchtower.settings import *
+from settings import *
 
 
 def check_and_create_initial_superuser() -> None:
