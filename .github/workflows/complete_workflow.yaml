@@ -121,8 +121,7 @@ jobs:
         run: docker load < watchtower.tar.gz
 
       - name: Tag docker image
-        run: docker tag watchtower_backend:${{ github.run_number }} ghcr.io/nickclearytech/watchtower_backend:latest && \
-          docker tag watchtower_backend:${{ github.run_number }} ghcr.io/nickclearytech/watchtower_backend:${{ github.run_number }}
+        run: docker tag watchtower_backend:${{ github.run_number }} ghcr.io/nickclearytech/watchtower_backend:latest && docker tag watchtower_backend:${{ github.run_number }} ghcr.io/nickclearytech/watchtower_backend:${{ github.run_number }}
 
       - name: Push to ghcr
         run: docker push ghcr.io/nickclearytech/watchtower_backend:latest && ghcr.io/nickclearytech/watchtower_backend:${{ github.run_number }}
