@@ -10,7 +10,10 @@ def test_answer():
     assert func(3) == 4
     assert func(3) == 4
 
-from watchtower_service.utils.github_utils.validations import check_valid_oauth_credentials
+
+from watchtower_service.utils.github_utils.validations import (
+    check_valid_oauth_credentials,
+)
 
 
 def test_test_oauth():

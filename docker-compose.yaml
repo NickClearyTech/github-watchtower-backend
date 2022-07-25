@@ -17,6 +17,12 @@ services:
     networks:
       - project_network
 
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.pytest
+    profiles: ["test"]
+
   initializer:
     build:
       context: .
