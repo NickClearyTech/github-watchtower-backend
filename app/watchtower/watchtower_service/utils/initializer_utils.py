@@ -4,7 +4,10 @@ from settings import *
 
 
 def check_and_create_initial_superuser() -> None:
-    if User.objects.filter(is_superuser=True, username=INITIAL_USER_USERNAME).count() >= 1:
+    if (
+        User.objects.filter(is_superuser=True, username=INITIAL_USER_USERNAME).count()
+        >= 1
+    ):
         print("Initial superuser exists, continuing")
         return
     superuser = User(
@@ -24,7 +27,7 @@ def check_and_create_oauth_application() -> None:
             client_type="public",
             authorization_grant_type="Resource owner password-based",
             user_id=1,
-            client_id=INITIAL_OAUTH_CLIENT_ID
+            client_id=INITIAL_OAUTH_CLIENT_ID,
         ).count()
         >= 1
     ):
