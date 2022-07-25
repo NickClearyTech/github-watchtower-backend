@@ -13,9 +13,3 @@ def run():
         app_key,
     )
     # print(git_integration)
-    api = Github("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")
-    print(
-        api.get_oauth_application(
-            GITHUB_OAUTH_CLIENT_ID, GITHUB_OAUTH_CLIENT_SECRET
-        ).name
-    )

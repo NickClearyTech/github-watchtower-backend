@@ -17,7 +17,8 @@ jobs:
       - name: Docker build
         run: docker build -t watchtower_backend:${{ github.run_number }} .
 
-      - name: docker save watchtower_backend:${{ github.run_number }} | gzip > watchtower.tar.gz
+      - name: Compress image
+        run: docker save watchtower_backend:${{ github.run_number }} | gzip > watchtower.tar.gz
 
       - uses: actions/upload-artifact@v3
         with:
