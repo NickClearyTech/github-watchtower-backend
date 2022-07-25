@@ -8,6 +8,7 @@ services:
       - .env
     volumes:
       - ./app/watchtower:/watchtower/app/watchtower
+      - ~/.certs/github/bot_key.pem:/key.pem
     ports:
       - 8000:8000
     command: ['bash', '-c', 'gunicorn --bind :8000 --workers 4 --reload wsgi:application']
@@ -24,7 +25,8 @@ services:
       - .env
     volumes:
       - ./app/watchtower:/watchtower/app/watchtower
-    command: ['bash', '-c', 'python3 manage.py migrate && python3 manage.py runscript initializer']
+      - ~/.certs/github/bot_key.pem:/key.pem
+    command: ['bash', '-c', 'python3 manage.py runscript testscript']
     depends_on:
       - database
     networks:

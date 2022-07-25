@@ -15,3 +15,7 @@ sqlparse==0.4.2
 
 # Webserver
 gunicorn==20.1.0
+
+# Github
+PyGithub==1.55
+ghapi
