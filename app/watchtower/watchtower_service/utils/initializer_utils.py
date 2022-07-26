@@ -25,7 +25,7 @@ def check_and_create_oauth_application() -> None:
     if (
         Application.objects.filter(
             client_type="public",
-            authorization_grant_type="Resource owner password-based",
+            authorization_grant_type="password",
             user_id=1,
             client_id=INITIAL_OAUTH_CLIENT_ID,
         ).count()
@@ -35,9 +35,8 @@ def check_and_create_oauth_application() -> None:
         return
     application = Application(
         client_type="public",
-        authorization_grant_type="Resource owner password-based",
+        authorization_grant_type="password",
         user_id=1,
         client_id=INITIAL_OAUTH_CLIENT_ID,
     )
     application.save()
-    print(application.client_id)

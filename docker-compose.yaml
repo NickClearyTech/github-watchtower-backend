@@ -32,7 +32,7 @@ services:
     volumes:
       - ./app/watchtower:/watchtower/app/watchtower
       - ~/.certs/github/bot_key.pem:/key.pem
-    command: ['bash', '-c', 'python3 manage.py runscript testscript']
+    command: ['bash', '-c', 'python3 manage.py migrate && python3 manage.py runscript initializer && python3 manage.py runscript testscript']
     depends_on:
       - database
     networks:

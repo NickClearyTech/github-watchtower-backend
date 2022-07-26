@@ -83,7 +83,7 @@ WSGI_APPLICATION = "wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", ""),
+        "NAME": os.environ.get("POSTGRES_DB", "watchtower"),
         "USER": os.environ.get("POSTGRES_PASSWORD", "postgres"),
         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
         "HOST": os.environ.get("POSTGRES_SERVER", "localhost"),
@@ -113,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     "drf_social_oauth2.backends.DjangoOAuth2",
     "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.github.GithubOAuth2",
 )
 
 
