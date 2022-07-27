@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "social_django",
     "drf_social_oauth2",
     "django_extensions",
+    "watchtower_service",
 ]
 
 MIDDLEWARE = [
@@ -163,3 +164,6 @@ INITIAL_OAUTH_CLIENT_ID = os.environ.get("INITIAL_OAUTH_CLIENT_ID", "default")
 GITHUB_APP_ID = os.environ.get("GITHUB_APP_ID", None)
 GITHUB_OAUTH_CLIENT_ID = os.environ.get("GITHUB_CLIENT_ID", None)
 GITHUB_OAUTH_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET", None)
+
+# Initial application install ID
+GITHUB_APP_INSTALL_ID = os.environ.get("GITHUB_APP_INSTALL_ID", None)

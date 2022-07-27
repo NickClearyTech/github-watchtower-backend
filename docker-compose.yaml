@@ -53,6 +53,10 @@ services:
     networks:
       - project_network
 
+  smee:
+    image: deltaprojects/smee-client
+    command: ["-u", "https://smee.io/wjfg5GJdRT6xc", "-t", "http://app/webhook:8000"]
+
 volumes:
   postgres_data:
 

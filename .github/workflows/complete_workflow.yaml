@@ -9,21 +9,21 @@ on:
 
 jobs:
 
-#  test:
-#    # Runs pytest and black formatting tool
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Docker build
-#        run: docker build -t watchtower_backend_test:${{ github.run_number }} -f Dockerfile.pytest .
-#
-#      - name: Run tests
-#        run: docker run --name pytest watchtower_backend_test:${{ github.run_number }}
+  test:
+    # Runs pytest and black formatting tool
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker build
+        run: docker build -t watchtower_backend_test:${{ github.run_number }} -f Dockerfile.pytest .
+
+      - name: Run tests
+        run: docker run --name pytest watchtower_backend_test:${{ github.run_number }}
 
   build:
-#    needs: test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from oauth2_provider.models import Application
+
+import settings
+from watchtower_service.models import Installation
 from settings import *
 
 
@@ -40,3 +43,26 @@ def check_and_create_oauth_application() -> None:
         client_id=INITIAL_OAUTH_CLIENT_ID,
     )
     application.save()
+    print("Initial OAuth application created")
+
+
+def create_initial_installation() -> None:
+    """
+    Checks for an initial application install. If not present, creates it
+    :return: None
+    """
+    if (
+        Installation.objects.filter(
+            installation_id=settings.GITHUB_APP_INSTALL_ID,
+            installation_name="NickClearyTech",
+        ).count()
+        >= 1
+    ):
+        print("Initial Installation already exists")
+        return
+    installation = Installation(
+        installation_id=settings.GITHUB_APP_INSTALL_ID,
+        installation_name="NickClearyTech",
+    )
+    installation.save()
+    print("Initial installation created")
