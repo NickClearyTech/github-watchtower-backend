@@ -55,7 +55,7 @@ services:
 
   smee:
     image: deltaprojects/smee-client
-    command: ["-u", "https://smee.io/wjfg5GJdRT6xc", "-t", "http://app/webhook:8000"]
+    command: ["-u", "https://smee.io/wjfg5GJdRT6xc", "-t", "http://app:8000/webhook"]
     networks:
       - project_network
 
