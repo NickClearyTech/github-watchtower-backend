@@ -12,4 +12,5 @@ class ListView(APIView):
 class WebHookEventView(APIView):
     def post(self, request, format=None):
         json = request.data
+        print(json)
         return Response({"ping", "Pong2"})

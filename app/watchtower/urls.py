@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from watchtower_service.views import ListView
+from watchtower_service.views import ListView, WebHookEventView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     re_path(r"^auth/", include("drf_social_oauth2.urls", namespace="drf")),
+    path("webhook/", WebHookEventView.as_view()),
     path("ping/", ListView.as_view()),
 ]
