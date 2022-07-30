@@ -58,6 +58,8 @@ services:
     command: ["-u", "https://smee.io/wjfg5GJdRT6xc", "-t", "http://app:8000/webhook/"]
     networks:
       - project_network
+    logging:
+      driver: none
 
 volumes:
   postgres_data:
