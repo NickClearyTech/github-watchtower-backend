@@ -1,6 +1,6 @@
 FROM python:3.10.2-slim-buster
 
-RUN apt-get update && apt-get upgrade -y && apt install vim -y
+RUN apt-get update && apt-get upgrade -y && apt install vim git -y
 
 WORKDIR /watchtower
 
