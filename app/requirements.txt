@@ -17,5 +17,4 @@ sqlparse==0.4.2
 gunicorn==20.1.0
 
 # Github
-PyGithub==1.55
-ghapi
+git+https://github.com/NickClearyTech/PyGithub
