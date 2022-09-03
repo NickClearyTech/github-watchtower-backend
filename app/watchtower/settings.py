@@ -167,3 +167,5 @@ GITHUB_OAUTH_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET", None)
 
 # Initial application install ID
 GITHUB_APP_INSTALL_ID = os.environ.get("GITHUB_APP_INSTALL_ID", None)
+
+GITHUB_PRIVATE_KEY_PATH = os.environ.get("GITHUB_APP_PRIVATE_KEY_PATH", None)
