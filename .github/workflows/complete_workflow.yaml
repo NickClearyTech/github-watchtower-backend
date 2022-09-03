@@ -61,7 +61,7 @@ jobs:
           image-ref: 'watchtower_backend:${{ github.run_number }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          ignore_unfixed: true
+          ignore-unfixed: true
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
