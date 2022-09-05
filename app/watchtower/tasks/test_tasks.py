@@ -3,5 +3,5 @@ from watchtower_service.utils.github_utils.auth_object import get_github_api_obj
 
 
 @celery_app.task
-def test_task():
+def something_task():
     get_github_api_object(124)
