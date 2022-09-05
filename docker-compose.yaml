@@ -60,6 +60,7 @@ services:
       - project_network
     logging:
       driver: none
+    read_only: true
 
   rabbit:
     build:
@@ -68,6 +69,8 @@ services:
     hostname: rabbit
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - project_network
 
   flower:
     image: mher/flower:latest
@@ -75,12 +78,15 @@ services:
       - CELERY_BROKER_URL=amqp://admin:bigpassword@rabbit:5672//
       - FLOWER_PORT=5555
       - FLOWER_PURGE_OFFLINE_WORKERS=10
+    read_only: true
     ports:
       - 5555:5555
     depends_on:
       - rabbit
     profiles:
       - "debug"
+    networks:
+      - project_network
 
   celery_worker:
     build:
@@ -95,6 +101,8 @@ services:
     depends_on:
       - rabbit
       - database
+    networks:
+      - project_network
 
 
 volumes:

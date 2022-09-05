@@ -1,3 +1,5 @@
+from watchtower_service.celery import app as celery_app
+
 from github import GithubIntegration, Installation, Github, Organization, Repository
 from watchtower_service.utils.github_utils.auth_object import get_github_api_object
 import watchtower_service.models as models
@@ -30,6 +32,7 @@ def get_all_integration_installations(git_integration: GithubIntegration):
         # get_all_installation_repositories(installation.id, git_integration, installation_object)
 
 
+@celery_app.task
 def get_all_organization_repositories(
     installation_id: int,
     organization_id: int,
