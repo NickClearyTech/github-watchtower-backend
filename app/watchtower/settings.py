@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "watchtower_service",
     "django_celery_results",
     "django_filters",
-    "drf_spectacular"
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -152,10 +152,10 @@ USE_TZ = True
 # Celery settings
 CELERY_TASK_TRACK_STARTED = True
 BROKER_URL = f"amqp://{os.environ.get('RABBIT_USERNAME')}:{os.environ.get('RABBIT_PASSWORD')}@rabbit:5672//"
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 CELERY_ACKS_LATE = True
 
 
