@@ -32,7 +32,7 @@ services:
     volumes:
       - ./app/watchtower:/watchtower/app/watchtower
       - ~/.certs/github/bot_key.pem:/key.pem
-    command: ['bash', '-c', 'python3 manage.py migrate && python3 manage.py runscript initializer && python3 manage.py runscript testscript']
+    command: ['bash', '-c', 'python3 manage.py migrate && python3 manage.py runscript initializer']
     depends_on:
       - database
     networks:
@@ -61,8 +61,45 @@ services:
     logging:
       driver: none
 
+  rabbit:
+    build:
+      context: Rabbit
+      dockerfile: Dockerfile.rabbit.local
+    hostname: rabbit
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  flower:
+    image: mher/flower:latest
+    environment:
+      - CELERY_BROKER_URL=amqp://admin:bigpassword@rabbit:5672//
+      - FLOWER_PORT=5555
+      - FLOWER_PURGE_OFFLINE_WORKERS=10
+    ports:
+      - 5555:5555
+    depends_on:
+      - rabbit
+    profiles:
+      - "debug"
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery -A watchtower_service worker -l INFO --uid 1
+    env_file:
+      - .env
+    volumes:
+      - ./app/watchtower:/watchtower/app/watchtower
+      - ~/.certs/github/bot_key.pem:/key.pem
+    depends_on:
+      - rabbit
+      - database
+
+
 volumes:
   postgres_data:
+  rabbitmq:
 
 networks:
   project_network:

@@ -63,7 +63,7 @@ class Installation(models.Model):
 
     ### TODO: Implement on .save() check for valid target
 
-    installation_id = models.IntegerField(null=False)
+    installation_id = models.IntegerField(null=False, primary_key=True)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
 
     target_id = models.IntegerField(null=False)
@@ -72,4 +72,50 @@ class Installation(models.Model):
     )
 
     created_at = models.DateTimeField(null=False, auto_now_add=True)
+    updated_at = models.DateField(null=False, auto_now=True)
+
+
+class Repository(models.Model):
+    class Meta:
+        unique_together = ("owner_id", "owner_type")
+
+    class OwnerTypeChoice(models.TextChoices):
+        ORGANIZATION = "org"
+        USER = "user"
+
+    repository_id = models.IntegerField(null=False, primary_key=True)
+    name = models.CharField(null=False, max_length=512)
+
+    archived = models.BooleanField(null=False, default=False)
+    description = models.CharField(null=True, max_length=1024)
+    is_fork = models.BooleanField(null=False, default=False)
+    has_downloads = models.BooleanField(null=False, default=False)
+    has_issues = models.BooleanField(null=False, default=False)
+    has_pages = models.BooleanField(null=False, default=False)
+    has_projects = models.BooleanField(null=False, default=False)
+    has_wiki = models.BooleanField(null=False, default=False)
+    language = models.CharField(null=True, max_length=128)
+    master_branch = models.CharField(null=True, default="main", max_length=512)
+    is_private = models.BooleanField(default=False, null=False)
+    last_pushed_at = models.DateTimeField(null=True)
+    size = models.IntegerField(null=True)
+    subscribers_count = models.IntegerField(null=True, default=0)
+    # Represents when repository was last updated on github
+    last_updated = models.DateTimeField(null=True)
+
+    owner_id = models.IntegerField(null=False)
+    owner_type = models.CharField(
+        null=False, max_length=4, choices=OwnerTypeChoice.choices, default="org"
+    )
+
+    # TODO: Implement parent repository functionality here
+    # parent
+
+    # A little helper bit to easily grab the installation necessary to access the repo through the github API
+    installation = models.ForeignKey(
+        Installation, on_delete=models.CASCADE, null=True, related_name="repositories"
+    )
+
+    created_at = models.DateTimeField(null=False, auto_now_add=True)
+    # Represents when object in database was last updated, not when item on github was updated
     updated_at = models.DateField(null=False, auto_now=True)

@@ -5,6 +5,7 @@ social-auth-app-django==5.0.0
 drf_social_oauth2
 django-extensions==3.2.0
 django-cors-headers==3.13.0
+django-filter==22.1
 
 # Auto Generated Swagger Doc
 drf_spectacular==0.23.1
@@ -18,3 +19,8 @@ gunicorn==20.1.0
 
 # Github
 git+https://github.com/NickClearyTech/PyGithub
+
+# Celery
+celery==5.2.7
+msgpack-python==0.5.6
+django-celery-results==2.4.0
