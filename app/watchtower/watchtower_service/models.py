@@ -17,7 +17,7 @@ class Organization(models.Model):
     email = models.EmailField(null=True)
 
     created_at = models.DateTimeField(null=False, auto_now_add=True)
-    updated_at = models.DateField(null=False, auto_now=True)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
 
     company = models.CharField(null=True, max_length=128)
     # plan = models.Charfield() Add this later
@@ -30,9 +30,6 @@ class Organization(models.Model):
 
 
 class App(models.Model):
-    class Meta:
-        unique_together = ("owner_id", "owner_type")
-
     class OwnerTypeChoices(models.TextChoices):
         USER = "user"
         ORGANIZATION = "org"
@@ -50,13 +47,10 @@ class App(models.Model):
     )
 
     created_at = models.DateTimeField(null=False, auto_now_add=True)
-    updated_at = models.DateField(null=False, auto_now=True)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
 
 
 class Installation(models.Model):
-    class Meta:
-        unique_together = ("target_id", "target_type")
-
     class TargetTypeChoice(models.TextChoices):
         ORGANIZATION = "org"
         REPOSITORY = "repo"
@@ -72,13 +66,10 @@ class Installation(models.Model):
     )
 
     created_at = models.DateTimeField(null=False, auto_now_add=True)
-    updated_at = models.DateField(null=False, auto_now=True)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
 
 
 class Repository(models.Model):
-    class Meta:
-        unique_together = ("owner_id", "owner_type")
-
     class OwnerTypeChoice(models.TextChoices):
         ORGANIZATION = "org"
         USER = "user"
@@ -103,7 +94,7 @@ class Repository(models.Model):
     # Represents when repository was last updated on github
     last_updated = models.DateTimeField(null=True)
 
-    owner_id = models.IntegerField(null=False)
+    owner_id = models.IntegerField(null=True)
     owner_type = models.CharField(
         null=False, max_length=4, choices=OwnerTypeChoice.choices, default="org"
     )
@@ -118,4 +109,4 @@ class Repository(models.Model):
 
     created_at = models.DateTimeField(null=False, auto_now_add=True)
     # Represents when object in database was last updated, not when item on github was updated
-    updated_at = models.DateField(null=False, auto_now=True)
+    updated_at = models.DateTimeField(null=False, auto_now=True)
