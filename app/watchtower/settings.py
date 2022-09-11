@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django_celery_results",
     "django_filters",
     "drf_spectacular",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -170,12 +171,27 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "watchtower_service.api_goodies.pagination.limit_offset_pagination.LimitOffsetFixed",
     "PAGE_SIZE": 10,
-    # "DEFAULT_AUTHENTICATION_CLASSES": (
-    #     "oauth2_provider.contrib.rest_framework.OAuth2Authentication",  # django-oauth-toolkit >= 1.0.0
-    #     "drf_social_oauth2.authentication.SocialAuthentication",
-    # ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "oauth2_provider.contrib.rest_framework.OAuth2Authentication",  # django-oauth-toolkit >= 1.0.0
+        "drf_social_oauth2.authentication.SocialAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Github Watchtower",
+    "DESCRIPTION": "Github watchtower's backend API",
+    "VERSION": "1.0.0",
 }
 
 # Initial User
