@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
-import json
+# Create your viewsets here.
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from watchtower_service.models import WebhookEvent

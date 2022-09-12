@@ -15,7 +15,7 @@ services:
     depends_on:
       - database
     networks:
-      - project_network
+      - watchtower_network
 
   test:
     build:
@@ -36,7 +36,7 @@ services:
     depends_on:
       - database
     networks:
-      - project_network
+      - watchtower_network
 
   database:
     image: postgres:13-alpine
@@ -51,13 +51,13 @@ services:
     ports:
       - 5432:5432
     networks:
-      - project_network
+      - watchtower_network
 
   smee:
     image: deltaprojects/smee-client
     command: ["-u", "https://smee.io/wjfg5GJdRT6xc", "-t", "http://app:8000/webhook/"]
     networks:
-      - project_network
+      - watchtower_network
     logging:
       driver: none
     read_only: true
@@ -70,7 +70,7 @@ services:
     volumes:
       - rabbitmq:/var/lib/rabbitmq
     networks:
-      - project_network
+      - watchtower_network
 
   flower:
     image: mher/flower:latest
@@ -86,7 +86,7 @@ services:
     profiles:
       - "debug"
     networks:
-      - project_network
+      - watchtower_network
 
   celery_worker:
     build:
@@ -102,7 +102,7 @@ services:
       - rabbit
       - database
     networks:
-      - project_network
+      - watchtower_network
 
 
 volumes:
@@ -110,4 +110,4 @@ volumes:
   rabbitmq:
 
 networks:
-  project_network:
+  watchtower_network:

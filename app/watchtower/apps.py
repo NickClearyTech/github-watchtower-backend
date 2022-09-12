@@ -10,4 +10,5 @@ class SignalApp(AppConfig):
 
     def ready(self):
         from watchtower_service.signals import create_user_token
+
         models.signals.post_save.connect(create_user_token, sender=User)
