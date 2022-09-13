@@ -58,7 +58,7 @@ class AppSerializer(DynamicModelSerializer):
         depth = 2
 
 
-class Installation(DynamicModelSerializer):
+class InstallationSerializer(DynamicModelSerializer):
     class Meta:
         model = Installation
         fields = "__all__"

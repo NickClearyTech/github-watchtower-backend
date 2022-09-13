@@ -7,10 +7,16 @@ from django.urls import include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from watchtower_service.views import ListView, WebHookEventView
 from watchtower_service.viewsets.repository.views import RepositoryViewSet
+from watchtower_service.viewsets.installation.views import InstallationViewSet
+from watchtower_service.viewsets.organization.views import OrganizationViewSet
+from watchtower_service.viewsets.app.views import AppViewSet
 
 
 router = routers.SimpleRouter()
 router.register(r"repository", RepositoryViewSet, basename="repository")
+router.register(r"app", AppViewSet, basename="app")
+router.register(r"organization", OrganizationViewSet, basename="organization"),
+router.register(r"installation", InstallationViewSet, basename="installation")
 urlpatterns = [
     path("api/v1/", include(router.urls)),
     path("api/v1/schema", SpectacularAPIView.as_view(), name="schema"),
