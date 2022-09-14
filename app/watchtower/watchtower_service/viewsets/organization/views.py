@@ -17,4 +17,10 @@ class OrganizationViewSet(
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ["organization_login", "organization_name", "email", "company"]
-    search_fields = ["organization_login", "organization_name", "email", "company", "description"]
+    search_fields = [
+        "organization_login",
+        "organization_name",
+        "email",
+        "company",
+        "description",
+    ]

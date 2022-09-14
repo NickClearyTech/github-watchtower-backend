@@ -110,3 +110,33 @@ class Repository(models.Model):
     created_at = models.DateTimeField(null=False, auto_now_add=True)
     # Represents when object in database was last updated, not when item on github was updated
     updated_at = models.DateTimeField(null=False, auto_now=True)
+
+
+class GithubUser(models.Model):
+
+    user_id = models.IntegerField(primary_key=True, null=False)
+    login = models.CharField(null=False, max_length=256)
+    name = models.CharField(null=True, max_length=256)
+
+    bio = models.CharField(null=True, max_length=8192)
+    company = models.CharField(null=True, max_length=128)
+    # Refers to when the GitHub user account was created
+    account_created = models.DateTimeField(null=False)
+    # Refers to when account was last updated
+    account_updated = models.DateTimeField(null=False)
+    disk_usage = models.IntegerField(null=True)
+    email = models.EmailField(null=True)
+    plan = models.CharField(null=True, max_length=32)
+    role = models.CharField(null=True, max_length=64)
+    site_admin = models.BooleanField(default=False)
+
+    organizations = models.ManyToManyField(
+        Organization, through="OrganizationMember", related_name="members"
+    )
+
+
+class OrganizationMember(models.Model):
+
+    user = models.ForeignKey(GithubUser, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    is_organization_admin = models.BooleanField(null=False, default=False)
