@@ -1,7 +1,9 @@
-from github import GithubIntegration, Installation
+from github import GithubIntegration, Installation, NamedUser
 import watchtower_service.models as models
-from tasks.data_collection_tasks import get_all_organization_repositories
-from tasks.data_collection_tasks import get_all_organization_repositories
+from tasks.data_collection_tasks import (
+    get_all_organization_repositories,
+    get_organization_users_and_teams,
+)
 
 from logging import getLogger
 
@@ -26,4 +28,6 @@ def get_all_integration_installations(git_integration: GithubIntegration):
             get_all_organization_repositories.apply_async(
                 args=[installation.id, installation.target_id]
             )
-        # get_all_installation_repositories(installation.id, git_integration, installation_object)
+            get_organization_users_and_teams.apply_async(
+                args=[installation.id, installation.target_id]
+            )

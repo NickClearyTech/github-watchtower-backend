@@ -134,9 +134,30 @@ class GithubUser(models.Model):
         Organization, through="OrganizationMember", related_name="members"
     )
 
+    created_at = models.DateTimeField(null=False, auto_now_add=True)
+    # Represents when object in database was last updated, not when item on github was updated
+    updated_at = models.DateTimeField(null=False, auto_now=True)
+
 
 class OrganizationMember(models.Model):
 
     user = models.ForeignKey(GithubUser, on_delete=models.CASCADE)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     is_organization_admin = models.BooleanField(null=False, default=False)
+
+
+class Team(models.Model):
+
+    team_id = models.IntegerField(primary_key=True, null=False)
+    name = models.CharField(null=False, max_length=256, default="")
+    description = models.CharField(null=True, max_length=2048)
+    slug = models.CharField(null=False, max_length=512, default="")
+    organization = models.ForeignKey(Organization, null=False, on_delete=models.CASCADE)
+
+    parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)
+
+    members = models.ManyToManyField(GithubUser, related_name="teams")
+
+    created_at = models.DateTimeField(null=False, auto_now_add=True)
+    # Represents when object in database was last updated, not when item on github was updated
+    updated_at = models.DateTimeField(null=False, auto_now=True)
