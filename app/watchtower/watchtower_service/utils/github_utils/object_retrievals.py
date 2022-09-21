@@ -3,6 +3,7 @@ import watchtower_service.models as models
 from tasks.data_collection_tasks import (
     get_all_organization_repositories,
     get_organization_users_and_teams,
+    get_organization_repo_permissions
 )
 
 from logging import getLogger
@@ -25,9 +26,12 @@ def get_all_integration_installations(git_integration: GithubIntegration):
             f"{'Created' if created else 'Found'} installation with ID {installation_object.installation_id}"
         )
         if installation.target_type == "Organization":
-            get_all_organization_repositories.apply_async(
+            task_one = get_all_organization_repositories.apply_async(
                 args=[installation.id, installation.target_id]
             )
-            get_organization_users_and_teams.apply_async(
+            task_two = get_organization_users_and_teams.apply_async(
                 args=[installation.id, installation.target_id]
+            )
+            get_organization_repo_permissions.apply_async(
+                args=[installation.id, installation.target_id, [task_one.id, task_two.id]]
             )
