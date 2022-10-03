@@ -160,13 +160,43 @@ def get_organization_users_and_teams(
 
 
 @celery_app.task(bind=True)
+def get_repo_collaborator_permissions(
+    self,
+    installation_id: int,
+    repository_id: int,
+    integration_object: GithubIntegration = None,
+):
+    api_object: Github = get_github_api_object(
+        installation_id, integration=integration_object
+    )
+    repository_object: models.Repository = models.Repository.objects.filter(
+        repository_id=repository_id
+    ).first()
+    if repository_object is None:
+        logger.error(f"Error: unable to find repository with ID {repository_object}")
+        return
+    github_repository: Repository = api_object.get_repo(full_name_or_id=repository_id)
+    logger.info(github_repository)
+
+
+@celery_app.task(bind=True)
 def get_organization_repo_permissions(
     self,
     installation_id: int,
     organization_id: int,
     dependent_task_ids: List[str],
     integration_object: GithubIntegration = None,
-):
+) -> None:
+    """
+    A task that runs through each repository in an organization and launches tasks to retrieve user and team perms
+    Waits for all task IDs provided to be complete before proceeding
+    :param self: Itself
+    :param installation_id: The installation ID of the github app this is being run as
+    :param organization_id: The organization ID to check repos with
+    :param dependent_task_ids: All IDs of tasks that need to be complete in order for the task to proceed
+    :param integration_object: A complete github integration object, in case this is not being run as an async task
+    :return: None
+    """
     completed: bool = False
     fatal: bool = False
     while not completed and not fatal:
@@ -179,4 +209,23 @@ def get_organization_repo_permissions(
             return
     logger.info("Tasks completed, running")
 
+    organization_object: models.Organization = models.Organization.objects.filter(
+        organization_id=organization_id
+    ).first()
+    if organization_object is None:
+        logger.error(f"Error: Unable to find organization with ID {organization_id}")
+        return
 
+    repository: models.Repository
+
+    for repository in models.Repository.objects.filter(
+        owner_id=organization_object.organization_id,
+        owner_type=models.Repository.OwnerTypeChoice.ORGANIZATION,
+    ).all():
+        # Launch a task to get this repos permissions
+        get_repo_collaborator_permissions.apply_async(
+            args=[installation_id, repository.repository_id]
+        )
+    logger.info(
+        f"Launched tasks to request all repo permissions in {organization_object.organization_name}"
+    )

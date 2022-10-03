@@ -112,6 +112,12 @@ class Repository(models.Model):
     updated_at = models.DateTimeField(null=False, auto_now=True)
 
 
+class RepositoryTeam(models.Model):
+
+    team = models.ForeignKey("Team", on_delete=models.CASCADE)
+    repo = models.ForeignKey(Repository, on_delete=models.CASCADE)
+
+
 class GithubUser(models.Model):
 
     user_id = models.IntegerField(primary_key=True, null=False)
