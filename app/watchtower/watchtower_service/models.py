@@ -107,15 +107,44 @@ class Repository(models.Model):
         Installation, on_delete=models.CASCADE, null=True, related_name="repositories"
     )
 
+    users = models.ManyToManyField(
+        "GithubUser", through="RepositoryUser", related_name="repos"
+    )
+    teams = models.ManyToManyField(
+        "Team", through="RepositoryTeam", related_name="repos"
+    )
+
     created_at = models.DateTimeField(null=False, auto_now_add=True)
     # Represents when object in database was last updated, not when item on github was updated
     updated_at = models.DateTimeField(null=False, auto_now=True)
 
 
-class RepositoryTeam(models.Model):
+class PermissionTypeChoice(models.TextChoices):
+    READ = "read"
+    WRITE = "write"
+    ADMIN = "admin"
 
+
+class RepositoryTeam(models.Model):
     team = models.ForeignKey("Team", on_delete=models.CASCADE)
     repo = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    permission = models.CharField(
+        null=False,
+        max_length=8,
+        choices=PermissionTypeChoice.choices,
+        default=PermissionTypeChoice.READ,
+    )
+
+
+class RepositoryUser(models.Model):
+    user = models.ForeignKey("GithubUser", on_delete=models.CASCADE)
+    repo = models.ForeignKey(Repository, on_delete=models.CASCADE)
+    permission = models.CharField(
+        null=False,
+        max_length=8,
+        choices=PermissionTypeChoice.choices,
+        default=PermissionTypeChoice.READ,
+    )
 
 
 class GithubUser(models.Model):

@@ -3,6 +3,7 @@ from typing import List
 from watchtower_service.celery import app as celery_app
 from github import GithubIntegration, Github, Organization, Repository
 from watchtower_service.utils.github_utils.auth_object import get_github_api_object
+from watchtower_service.utils.data_utils import convert_permission_object_string
 from watchtower_service.utils.data_utils import github_user_to_db_object
 from watchtower_service.utils.celery_utils import check_all_tasks_complete
 import watchtower_service.models as models
@@ -176,7 +177,34 @@ def get_repo_collaborator_permissions(
         logger.error(f"Error: unable to find repository with ID {repository_object}")
         return
     github_repository: Repository = api_object.get_repo(full_name_or_id=repository_id)
-    logger.info(github_repository)
+    logger.info(f"Retrieving users for {github_repository.full_name}")
+    for collaborator in github_repository.get_collaborators():
+        user_object = models.GithubUser.objects.filter(user_id=collaborator.id).first()
+        if user_object is None:
+            logger.error(f"Unable to find user object with ID {collaborator.id}")
+            continue
+        models.RepositoryUser.objects.update_or_create(
+            user=user_object,
+            repo=repository_object,
+            permission=github_repository.get_collaborator_permission(collaborator),
+        )
+
+    logger.info(f"Retrieving teams for {github_repository.full_name}")
+    for team in github_repository.get_teams():
+        team_object = models.Team.objects.filter(team_id=team.id).first()
+        if team_object is None:
+            logger.error(f"Unable to find team object with ID {team.id}")
+            continue
+        models.RepositoryTeam.objects.update_or_create(
+            team=team_object,
+            repo=repository_object,
+            permission=convert_permission_object_string(
+                team.get_repo_permission(github_repository)
+            ),
+        )
+    logger.info(
+        f"Retrieved all user and team collaborators for repository {github_repository.full_name}"
+    )
 
 
 @celery_app.task(bind=True)

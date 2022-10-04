@@ -1,4 +1,4 @@
-from github import NamedUser
+from github import NamedUser, Permissions
 import watchtower_service.models as models
 from django.utils.timezone import make_aware
 
@@ -28,3 +28,19 @@ def github_user_to_db_object(github_user: NamedUser) -> models.GithubUser:
         },
     )
     return user_object
+
+
+def convert_permission_object_string(permission: Permissions) -> str:
+    """
+    A helper function that takes a GitHub permissions object and converts it to a string representing the
+    highest level permission (admin, write, or read)
+    :param permission: Github permission object
+    :return: "read", "write" or "admin"
+    """
+    if permission.admin:
+        return "admin"
+    if permission.push:
+        return "write"
+    if permission.pull:
+        return "read"
+    return ""
