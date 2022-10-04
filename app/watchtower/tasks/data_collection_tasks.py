@@ -21,7 +21,15 @@ def get_all_organization_repositories(
     installation_id: int,
     organization_id: int,
     integration_object: GithubIntegration = None,
-):
+) -> None:
+    """
+    For one organization, get all repositories owned by it
+    :param self: Self
+    :param installation_id: Installation ID of github app
+    :param organization_id: Organization ID
+    :param integration_object: Github API integration object if not running as an aysnc task
+    :return: None
+    """
     api_object: Github = get_github_api_object(
         installation_id, integration=integration_object
     )
@@ -74,7 +82,15 @@ def get_organization_users_and_teams(
     installation_id: int,
     organization_id: int,
     integration_object: GithubIntegration = None,
-):
+) -> None:
+    """
+    For one organization, get all users and teams
+    :param self: Self
+    :param installation_id: Installation ID of github app
+    :param organization_id: Organization ID
+    :param integration_object: Integration object if not running as an async task
+    :return: None
+    """
     api_object: Github = get_github_api_object(
         installation_id, integration=integration_object
     )
@@ -166,7 +182,15 @@ def get_repo_collaborator_permissions(
     installation_id: int,
     repository_id: int,
     integration_object: GithubIntegration = None,
-):
+) -> None:
+    """
+    For one repository, get all user and team collaborators and add them and their permission to the database
+    :param self: Self
+    :param installation_id: The installation ID of the github app
+    :param repository_id: Repository ID
+    :param integration_object: Integration object if not running as an async task
+    :return: None
+    """
     api_object: Github = get_github_api_object(
         installation_id, integration=integration_object
     )
