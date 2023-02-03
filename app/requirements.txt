@@ -1,5 +1,5 @@
 # Core backend
-django==4.1.1
+django==4.1.6
 djangorestframework==3.13.1
 social-auth-app-django==5.0.0
 drf_social_oauth2
